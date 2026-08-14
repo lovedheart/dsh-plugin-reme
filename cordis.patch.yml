@@ -1,0 +1,19 @@
+# dsh-plugin-reme: ReMe long-term memory integration for DeepSeek Harness
+# This patch inserts the ReMe tool entry into the Cordis loader tree.
+# The entry registers model-facing tools for memory search, read, write,
+# save, proactive topics, and consolidation (dream).
+
+- insert:
+    - id: tool-reme
+      name: 'dsh-plugin-reme'
+      config:
+        # ReMe service endpoint (default: localhost:2333)
+        host: '127.0.0.1'
+        port: 2333
+        # Default workspace directory for ReMe memory files
+        # When empty, ReMe uses its default (.reme/ under startup directory)
+        workspaceDir: ''
+        # Default search result limit
+        searchLimit: 5
+        # Tool call timeout in milliseconds
+        timeoutMs: 60000
