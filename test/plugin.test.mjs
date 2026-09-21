@@ -211,9 +211,10 @@ test('save_memory forwards sanitized snake_case payloads', async () => {
   });
   assert.equal(value.success, true);
   assert.equal(value.dailyPath, 'daily/2025-01-15/x.md');
+  // ReMe's Msg requires `name`; the plugin defaults it to the role.
   assert.deepEqual(calls[0].payload, {
     session_id: 's',
-    messages: [{ role: 'user', content: 'hi' }],
+    messages: [{ role: 'user', name: 'user', content: 'hi' }],
     memory_hint: 'hint',
   });
   await close();
