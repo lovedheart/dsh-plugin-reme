@@ -4,7 +4,7 @@ DeepSeek Harness plugin for [ReMe](https://github.com/agentscope-ai/ReMe) long-t
 
 ## Overview
 
-This plugin integrates ReMe's file-based long-term memory system into DeepSeek Harness, giving the agent six model-facing tools to search, read, write, and consolidate durable knowledge stored as Markdown files.
+This plugin integrates ReMe's file-based long-term memory system into DeepSeek Harness, giving the agent seven model-facing tools to search, read, write, delete, and consolidate durable knowledge stored as Markdown files.
 
 ### Tools Provided
 
@@ -16,6 +16,7 @@ This plugin integrates ReMe's file-based long-term memory system into DeepSeek H
 | `reme_save_memory` | Save conversation turns into daily memory cards |
 | `reme_proactive` | Read proactive interest topics from auto_dream |
 | `reme_dream` | Consolidate daily notes into long-term digest memory |
+| `reme_delete` | Hard-delete a memory file or folder, reporting surviving inbound wikilinks |
 
 ## Prerequisites
 
@@ -132,7 +133,7 @@ dsh-plugin-reme/
 ## How It Works
 
 1. **Cordis Patch**: The `cordis.patch.yml` declares an entry that loads the `dsh-plugin-reme` module
-2. **Tool Registration**: On activation, the module registers 6 tools with `ctx.tools.register()` and adds system prompt guidance via `ctx.systemPrompt.section()`
+2. **Tool Registration**: On activation, the module registers 7 tools with `ctx.tools.register()` and adds system prompt guidance via `ctx.systemPrompt.section()`
 3. **HTTP Client**: Tool executions call the ReMe HTTP API (`POST /{action}`) on the configured host:port
 4. **Streaming Support**: The client handles both JSON and SSE streaming responses from ReMe
 

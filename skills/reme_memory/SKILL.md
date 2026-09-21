@@ -5,7 +5,7 @@ description: Use ReMe long-term memory tools to search, read, write, and consoli
 
 # ReMe Long-Term Memory
 
-ReMe stores agent memory as readable, editable Markdown files with BM25 search and wikilink relationships. This skill provides six model-facing tools to interact with the ReMe memory service.
+ReMe stores agent memory as readable, editable Markdown files with BM25 search and wikilink relationships. This skill provides seven model-facing tools to interact with the ReMe memory service.
 
 ## Before Using ReMe Tools
 
@@ -60,6 +60,14 @@ reme_write(
 ```
 
 **Do not** store secrets, API keys, or sensitive personal data unless the user explicitly requests it.
+
+### `reme_delete` — Delete a Memory File or Folder
+
+Hard-delete a workspace-relative file or folder. The watcher prunes affected chunks from the indexes automatically, and the result lists surviving inbound wikilinks so you can fix dangling references. Only delete when the user explicitly asks — this is irreversible.
+
+```
+reme_delete(path="digest/wiki/outdated-topic.md")
+```
 
 ### `reme_save_memory` — Save Conversation to Memory
 
