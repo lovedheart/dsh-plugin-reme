@@ -36,7 +36,7 @@ async function mount(handler, overrides = {}) {
 
 const ok = (body) => () => ({ body });
 
-test('registers all seven tools; partial config does not throw', () => {
+test('registers all thirty-two tools; partial config does not throw', () => {
   const tools = new Map();
   const sections = [];
   plugin.apply(
@@ -45,7 +45,15 @@ test('registers all seven tools; partial config does not throw', () => {
   );
   assert.deepEqual(
     [...tools.keys()].sort(),
-    ['reme_delete', 'reme_dream', 'reme_proactive', 'reme_read', 'reme_save_memory', 'reme_search', 'reme_write'],
+    [
+      'reme_app_config', 'reme_daily_list', 'reme_daily_reindex', 'reme_daily_write',
+      'reme_delete', 'reme_dream', 'reme_dream_cc', 'reme_edit', 'reme_frontmatter_delete',
+      'reme_frontmatter_read', 'reme_frontmatter_update', 'reme_graph_snapshot',
+      'reme_health_check', 'reme_help', 'reme_list', 'reme_list_tags', 'reme_load',
+      'reme_move', 'reme_node_search', 'reme_proactive', 'reme_read', 'reme_read_image',
+      'reme_reindex', 'reme_resource', 'reme_save', 'reme_save_memory', 'reme_search',
+      'reme_stat', 'reme_status', 'reme_traverse', 'reme_version', 'reme_write',
+    ],
   );
   assert.equal(sections.length, 1);
 });
@@ -61,11 +69,19 @@ test('mutating tools are not concurrency-safe; read-only ones are', async () => 
     reme_proactive: {},
     reme_dream: {},
     reme_delete: { path: 'a.md' },
+    reme_traverse: { paths: ['a.md'] },
+    reme_stat: { path: 'a.md' },
+    reme_list: {},
+    reme_help: {},
+    reme_save: { path: 'a.md', content: 'c' },
+    reme_edit: { path: 'a.md', oldString: 'x' },
+    reme_move: { srcPath: 'a/x.md', dstPath: 'b/x.md' },
+    reme_reindex: {},
   };
-  for (const name of ['reme_write', 'reme_save_memory', 'reme_dream', 'reme_delete'])
+  for (const name of ['reme_write', 'reme_save_memory', 'reme_dream', 'reme_delete', 'reme_save', 'reme_edit', 'reme_move', 'reme_reindex'])
     assert.equal(tools.get(name).isConcurrencySafe(valid[name]), false, name);
-  for (const name of ['reme_search', 'reme_read', 'reme_proactive'])
-    assert.equal(tools.get(name).isConcurrencySafe(valid[name]), true, name);
+  for (const name of ['reme_search', 'reme_read', 'reme_proactive', 'reme_traverse', 'reme_list', 'reme_stat', 'reme_help'])
+    assert.equal(tools.get(name).isConcurrencySafe(valid[name] ?? {}), true, name);
   await close();
 });
 
